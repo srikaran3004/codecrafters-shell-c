@@ -5,18 +5,24 @@
 int main() {
     setbuf(stdout, NULL);
 
-    char input[100];
-
     while (1) {
         printf("$ ");
+        fflush(stdout);
+        char input[100];
+
         if (fgets(input, sizeof(input), stdin) == NULL) {
             break;
         }
 
-        input[strcspn(input, "\n")] = '\0';
+        input[strcspn(input, "\r\n")] = 0;
 
         if (strcmp(input, "exit 0") == 0) {
-            exit(0);
+            return 0;
+        }
+
+        if (strncmp(input, "echo", strlen("echo")) == 0) {
+            printf("%s\n", input + 5);
+            continue;
         }
 
         printf("%s: command not found\n", input);
